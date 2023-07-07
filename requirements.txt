@@ -1,0 +1,7 @@
+nltk
+scikit-learn
+pandas
+numpy
+BeautifulSoup4
+lxml
+sentence-transformers
