@@ -37,6 +37,16 @@ def main():
     specific_job_titles = ['software developer', 'systems administrator', 'project manager', 'web developer', 'database administrator', 'java developer', 'network administrator']
     resume_filtered = resume_filtered[resume_filtered['label'].isin(specific_job_titles)]
     resume_filtered["label"].value_counts()
-
+    
+    #remove duplicate records
+    resume_count = len(resume_filtered)
+    print(resume_count)
+    
+    duplicate_count = resume_filtered.duplicated('resume').sum()
+    print("Duplicate records :", duplicate_count)
+    
+    resume_filtered = resume_filtered.drop_duplicates()
+    print("Total resumes available are: ", len(resume_filtered))
+    
     # Save resumes as CSV
     resume_filtered.to_csv('preprocessed_resume.csv', index=False)
