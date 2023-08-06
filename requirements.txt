@@ -5,3 +5,6 @@ numpy
 BeautifulSoup4
 lxml
 sentence-transformers
+skillNer
+seaborn
+tabulate

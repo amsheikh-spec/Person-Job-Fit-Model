@@ -37,39 +37,51 @@ def get_embeddings(resumes, model):
     chunk_3 = []
     chunk_4 = []
     chunk_5 = []
-    chunks = resumes[i].split()
-    chunks_length = len(chunks)
 
-    if(chunks_length < 250):
-      chunk_1 = chunks
-    elif(chunks_length > 250 and chunks_length < 450):
-      chunk_1 = chunks[:250]
-      chunk_2 = chunks[200:]
-    elif(chunks_length > 450 and chunks_length < 650):
-      chunk_1 = chunks[:250]
-      chunk_2 = chunks[200:450]
-      chunk_3 = chunks[400:]
-    elif(chunks_length > 650 and chunks_length < 850):
-      chunk_1 = chunks[:250]
-      chunk_2 = chunks[200:450]
-      chunk_3 = chunks[400:650]
-      chunk_4 = chunks[600:]
+    if resumes[i] == "" or resumes[i] is None:
+      chunk_1 = [""]
+      chunk_2 = [""]
+      chunk_3 = [""]
+      chunk_4 = [""]
+      chunk_5 = [""]
 
-    elif(chunks_length > 850 and chunks_length < 1050):
-      chunk_1 = chunks[:250]
-      chunk_2 = chunks[200:450]
-      chunk_3 = chunks[400:650]
-      chunk_4 = chunks[600:850]
-      chunk_5 = chunks[800:]
+    else: 
+      chunks = resumes[i].split()
+      chunks_length = len(chunks)
 
-    elif(chunks_length > 1050):
-      chunk_1 = chunks[:250]
-      chunk_2 = chunks[200:450]
-      chunk_3 = chunks[400:650]
-      chunk_4 = chunks[600:850]
-      chunk_5 = chunks[800:1050]
+      if(chunks_length > 1050):
+        #select the middle of the text works better than truncation 
+        mid = int(chunks_length/2)
+        chunks = chunks[(mid-500) : (mid+500)]
 
+      if(chunks_length < 250):
+        chunk_1 = chunks
+      elif(chunks_length > 250 and chunks_length < 450):
+        chunk_1 = chunks[:250]
+        chunk_2 = chunks[200:]
+      elif(chunks_length > 450 and chunks_length < 650):
+        chunk_1 = chunks[:250]
+        chunk_2 = chunks[200:450]
+        chunk_3 = chunks[400:]
+      elif(chunks_length > 650 and chunks_length < 850):
+        chunk_1 = chunks[:250]
+        chunk_2 = chunks[200:450]
+        chunk_3 = chunks[400:650]
+        chunk_4 = chunks[600:]
 
+      elif(chunks_length > 850 and chunks_length < 1050):
+        chunk_1 = chunks[:250]
+        chunk_2 = chunks[200:450]
+        chunk_3 = chunks[400:650]
+        chunk_4 = chunks[600:850]
+        chunk_5 = chunks[800:]
+
+      elif(chunks_length > 1050):
+        chunk_1 = chunks[:250]
+        chunk_2 = chunks[200:450]
+        chunk_3 = chunks[400:650]
+        chunk_4 = chunks[600:850]
+        chunk_5 = chunks[800:1050]
     resume_chunk_1.append(' '.join(chunk_1))
     resume_chunk_2.append(' '.join(chunk_2))
     resume_chunk_3.append(' '.join(chunk_3))
@@ -141,3 +153,10 @@ def main():
   allMiniLML6v2 = model_similarity('all-MiniLM-L6-v2', resumes, jd, designations, 5)
   allMiniLML12v2 = model_similarity('all-MiniLM-L12-v2', resumes, jd, designations, 5)
   paraphrasealbertsmallv2 = model_similarity('paraphrase-albert-small-v2', resumes, jd, designations, 5)
+  
+  skills_data = data_resumes["skills"]
+  print("Similarity score of skills with jd")
+  model_similarity('all-MiniLM-L6-v2', skills_data, jd, designations, 5)
+  model_similarity('all-MiniLM-L12-v2', skills_data, jd, designations, 5)
+  model_similarity('paraphrase-albert-small-v2', skills_data, jd, designations, 5)
+  

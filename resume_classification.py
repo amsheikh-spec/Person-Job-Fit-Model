@@ -27,19 +27,6 @@ labels_dict
 df.label = df.label.apply(func=lambda x: labels_dict[x])
 df.label = df.label.astype(np.int64)
 
-def text_preprocess(data,col):
-    data[col] = data[col].apply(func=clean_html)
-    data[col] = data[col].apply(func=remove_)
-    data[col] = data[col].apply(func=removeStopWords)
-    data[col] = data[col].apply(func=remove_digits)
-    data[col] = data[col].apply(func=remove_links)
-    data[col] = data[col].apply(func=remove_special_characters)
-    data[col] = data[col].apply(func=punct)
-    data[col] = data[col].apply(func=non_ascii)
-    data[col] = data[col].apply(func=email_address)
-    data[col] = data[col].apply(func=lower)
-    return data
-
 df.head()
 tokenizer = AutoTokenizer.from_pretrained("manishiitg/distilbert-resume-parts-classify")
 bert_model = TFDistilBertForSequenceClassification.from_pretrained("manishiitg/distilbert-resume-parts-classify",from_pt=True)
